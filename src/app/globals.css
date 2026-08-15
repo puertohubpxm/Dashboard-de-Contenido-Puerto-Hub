@@ -6,52 +6,52 @@
 :root {
   --radius: 0.75rem;
 
-  /* Puerto Hub — dark, terracota-accented palette (see CLAUDE.md § Design system) */
-  --background: #100d0c;
-  --foreground: #f2ece7;
+  /* Puerto Hub — paleta de marca "atardecer en el puerto" (ver CLAUDE.md § Paleta de marca) */
+  --background: #0c0e12;
+  --foreground: #eef1f6;
 
-  --card: #17130f;
-  --card-foreground: #f2ece7;
+  --card: #12151b;
+  --card-foreground: #eef1f6;
 
-  --popover: #1a1512;
-  --popover-foreground: #f2ece7;
+  --popover: #161a21;
+  --popover-foreground: #eef1f6;
 
-  --primary: #c4653f;
-  --primary-foreground: #fbf1ea;
+  --primary: #4b7bcd; /* Azul marino */
+  --primary-foreground: #f6f9ff;
 
-  --secondary: #23190f;
-  --secondary-foreground: #f2ece7;
+  --secondary: #1a1f27;
+  --secondary-foreground: #eef1f6;
 
-  --muted: #1c1712;
-  --muted-foreground: #a8988a;
+  --muted: #171b22;
+  --muted-foreground: #8e96a3;
 
-  --accent: #2a1c12;
-  --accent-foreground: #eeb894;
+  --accent: #241e17;
+  --accent-foreground: #f4d7b7; /* Arena */
 
-  --destructive: #d9534f;
-  --destructive-foreground: #fbf1ea;
+  --destructive: #ff8a80; /* Rojo pastel */
+  --destructive-foreground: #2b0f0c;
 
-  --success: #7fa66d;
-  --warning: #d9a441;
+  --success: #22ab61; /* Verde palmero */
+  --warning: #ffb26b; /* Naranja atardecer */
 
-  --border: #2a231d;
-  --input: #241e18;
-  --ring: #c4653f;
+  --border: #262b34;
+  --input: #1d222a;
+  --ring: #4b7bcd;
 
-  --sidebar: #0b0908;
-  --sidebar-foreground: #f2ece7;
-  --sidebar-primary: #c4653f;
-  --sidebar-primary-foreground: #fbf1ea;
-  --sidebar-accent: #1c140e;
-  --sidebar-accent-foreground: #eeb894;
-  --sidebar-border: #221b15;
-  --sidebar-ring: #c4653f;
+  --sidebar: #090b0e;
+  --sidebar-foreground: #eef1f6;
+  --sidebar-primary: #4b7bcd;
+  --sidebar-primary-foreground: #f6f9ff;
+  --sidebar-accent: #182636;
+  --sidebar-accent-foreground: #cfe0fb;
+  --sidebar-border: #1c212a;
+  --sidebar-ring: #4b7bcd;
 
-  --chart-1: #c4653f;
-  --chart-2: #eeb894;
-  --chart-3: #7fa66d;
-  --chart-4: #d9a441;
-  --chart-5: #8c7263;
+  --chart-1: #4b7bcd; /* Azul marino */
+  --chart-2: #ffb26b; /* Naranja atardecer */
+  --chart-3: #22ab61; /* Verde palmero */
+  --chart-4: #ff8a80; /* Rojo pastel */
+  --chart-5: #f4d7b7; /* Arena */
 }
 
 @theme inline {

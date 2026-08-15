@@ -13,9 +13,15 @@ export const metadata = {
 };
 
 function potentialTier(score: number) {
-  if (score >= 85) return { label: "Alto", className: "text-success" };
-  if (score >= 60) return { label: "Medio", className: "text-warning" };
-  return { label: "Bajo", className: "text-muted-foreground" };
+  if (score >= 85)
+    return { label: "Alto", className: "text-success", barClassName: "bg-success" };
+  if (score >= 60)
+    return { label: "Medio", className: "text-warning", barClassName: "bg-warning" };
+  return {
+    label: "Bajo",
+    className: "text-muted-foreground",
+    barClassName: "bg-muted-foreground",
+  };
 }
 
 export default function TrendsPage() {
@@ -67,7 +73,10 @@ export default function TrendsPage() {
                       {trend.hookPotential}
                     </span>
                   </div>
-                  <Progress value={trend.hookPotential} />
+                  <Progress
+                    value={trend.hookPotential}
+                    indicatorClassName={tier.barClassName}
+                  />
                 </div>
               </CardContent>
             </Card>

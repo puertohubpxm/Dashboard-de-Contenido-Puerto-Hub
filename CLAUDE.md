@@ -70,18 +70,27 @@ quiere soportar modo claro, los tokens ya están centralizados en
 1. Añadir un segundo bloque de tokens bajo `.light` o `@media (prefers-color-scheme: light)`.
 2. Quitar la clase `dark` fija del layout y añadir un toggle (`next-themes` es la ruta estándar).
 
-### Paleta: terracota sobre fondo oscuro cálido
+### Paleta de marca: "atardecer en el puerto"
 
-En vez de un negro puro, se usó un **marrón/carbón muy oscuro** (`#100d0c`) para
-que el acento terracota (`#c4653f`) resalte con calidez en vez de verse como un
-naranja frío sobre negro puro. Todos los tokens están en `globals.css`:
+El dashboard usa la paleta de marca oficial de Puerto Hub — cinco colores con
+nombre propio que, juntos, leen como un atardecer costero (cielo azul marino,
+naranja y rojo del atardecer, arena, palmeras) — sobre un fondo casi negro
+neutro para que los cinco colores puedan convivir sin pelearse entre sí.
+Todos los tokens están en `globals.css`; el mapeo de rol semántico se decidió
+así:
 
-- `--background` / `--card` / `--popover`: escala de carbón cálido (`#100d0c` → `#1a1512`).
-- `--primary` = `#c4653f` (terracota) — botones primarios, links activos, iconos de estado activo en el sidebar, barras de progreso.
-- `--accent` = fondo sutil terracota (`#2a1c12`) con `--accent-foreground` en un terracota claro (`#eeb894`) — usado en íconos de tarjetas y hovers.
-- `--success` (verde apagado) y `--warning` (ámbar) para deltas positivos/negativos y estados de "Listo"/"Publicado" en el Programador.
-- `--sidebar-*`: tokens independientes del sidebar (un poco más oscuro que el `background` general) para dar profundidad sin depender de sombras.
-- `--chart-1..5`: paleta para `recharts`, empezando en terracota y usando colores derivados (beige, verde, ámbar, marrón) — nunca colores fuera de la paleta de marca.
+| Color de marca | Hex | Rol en el dashboard |
+| --- | --- | --- |
+| Azul marino | `#4b7bcd` | `--primary` — botones primarios, links activos, badge/ícono activo del sidebar, barra de progreso por defecto, `chart-1`. |
+| Naranja atardecer | `#ffb26b` | `--warning` — estado "Listo" en el Programador, potencial "Medio" en Tendencias, `chart-2`. |
+| Rojo pastel | `#ff8a80` | `--destructive` — acciones destructivas, deltas negativos, `chart-4`. |
+| Verde palmero | `#22ab61` | `--success` — deltas positivos, estado "Publicado", potencial "Alto" en Tendencias, `chart-3`. |
+| Arena | `#f4d7b7` | `--accent-foreground` — acento cálido secundario para íconos/chips (`--accent` es su versión oscurecida como fondo), `chart-5`. |
+
+- `--background` / `--card` / `--popover`: escala de carbón neutro casi negro (`#0c0e12` → `#161a21`), deliberadamente **sin matiz cálido ni frío dominante** para no competir con los cinco acentos de marca.
+- `--sidebar-accent` usa un tinte azul marino sutil (no arena) para que el ítem de navegación activo se sienta "seleccionado con la marca", separado visualmente del acento arena que se usa en chips/íconos de contenido.
+- Elementos que antes usaban un solo tono de acento (p. ej. la barra de "potencial de hook" en Tendencias) ahora usan el color de marca correspondiente al valor mostrado (verde/naranja/gris), en vez de un color fijo — ver `potentialTier()` en `src/app/trends/page.tsx`.
+- `--chart-1..5` mapea 1:1 a los cinco colores de marca en el orden de la tabla, así que cualquier gráfica nueva que use `chart-1..5` hereda la paleta automáticamente.
 
 Border-radius base: `0.75rem` (`--radius`), consistente con las cards y botones
 de shadcn/ui estilo "new-york".

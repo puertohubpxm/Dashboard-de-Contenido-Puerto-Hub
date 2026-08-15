@@ -18,7 +18,7 @@ import { formatCompactNumber } from "@/lib/format";
 const metrics = [
   { key: "views", label: "Vistas", color: "var(--color-chart-1)" },
   { key: "saves", label: "Guardados", color: "var(--color-chart-2)" },
-  { key: "followers", label: "Nuevos seguidores", color: "var(--color-chart-4)" },
+  { key: "followers", label: "Nuevos seguidores", color: "var(--color-chart-3)" },
 ] as const;
 
 type MetricKey = (typeof metrics)[number]["key"];

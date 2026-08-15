@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.75rem;
+
+  /* Puerto Hub — dark, terracota-accented palette (see CLAUDE.md § Design system) */
+  --background: #100d0c;
+  --foreground: #f2ece7;
+
+  --card: #17130f;
+  --card-foreground: #f2ece7;
+
+  --popover: #1a1512;
+  --popover-foreground: #f2ece7;
+
+  --primary: #c4653f;
+  --primary-foreground: #fbf1ea;
+
+  --secondary: #23190f;
+  --secondary-foreground: #f2ece7;
+
+  --muted: #1c1712;
+  --muted-foreground: #a8988a;
+
+  --accent: #2a1c12;
+  --accent-foreground: #eeb894;
+
+  --destructive: #d9534f;
+  --destructive-foreground: #fbf1ea;
+
+  --success: #7fa66d;
+  --warning: #d9a441;
+
+  --border: #2a231d;
+  --input: #241e18;
+  --ring: #c4653f;
+
+  --sidebar: #0b0908;
+  --sidebar-foreground: #f2ece7;
+  --sidebar-primary: #c4653f;
+  --sidebar-primary-foreground: #fbf1ea;
+  --sidebar-accent: #1c140e;
+  --sidebar-accent-foreground: #eeb894;
+  --sidebar-border: #221b15;
+  --sidebar-ring: #c4653f;
+
+  --chart-1: #c4653f;
+  --chart-2: #eeb894;
+  --chart-3: #7fa66d;
+  --chart-4: #d9a441;
+  --chart-5: #8c7263;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply antialiased;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+}

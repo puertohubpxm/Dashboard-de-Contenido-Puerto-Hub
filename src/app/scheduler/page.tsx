@@ -14,7 +14,7 @@ export default function SchedulerPage() {
       <PageHeader
         icon={Send}
         title="Programador"
-        description="Programación multiplataforma con un solo clic y generación automática de captions"
+        description="Sube el video, genera 3 variantes de caption y programa por plataforma con fecha y hora propias"
       />
       <SchedulerBoard hooks={hooks} initialPosts={scheduledPosts} />
     </>

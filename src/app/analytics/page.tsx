@@ -1,8 +1,8 @@
-import { BarChart3, Eye, Bookmark, UserPlus, Gauge } from "lucide-react";
+import { BarChart3, Eye, Bookmark, UserPlus, MessageCircle } from "lucide-react";
 
 import { PageHeader } from "@/components/dashboard/page-header";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { WeeklyChart } from "@/components/dashboard/weekly-chart";
+import { PerformanceChart } from "@/components/dashboard/performance-chart";
 import {
   Card,
   CardContent,
@@ -12,17 +12,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
   analyticsSummary,
-  topContentThisWeek,
-  weeklyPerformance,
+  averageViews30d,
+  featuredThreshold,
+  isFeatured,
+  performanceRanges,
+  top5ContentThisWeek,
 } from "@/data/mock";
 import { formatCompactNumber, formatDate } from "@/lib/format";
 
@@ -36,13 +31,13 @@ export default function AnalyticsPage() {
       <PageHeader
         icon={BarChart3}
         title="Analíticas"
-        description="Vistas de Instagram, guardados, nuevos seguidores y el contenido con mejor rendimiento de la semana"
+        description="Vistas, guardados, nuevos seguidores y volumen de DMs, con el contenido de mejor rendimiento"
       />
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard
           icon={Eye}
-          label="Vistas totales"
+          label="Vistas"
           value={formatCompactNumber(analyticsSummary.views.value)}
           delta={analyticsSummary.views.delta}
         />
@@ -59,68 +54,75 @@ export default function AnalyticsPage() {
           delta={analyticsSummary.newFollowers.delta}
         />
         <StatCard
-          icon={Gauge}
-          label="Retención promedio"
-          value={String(analyticsSummary.avgWatchRate.value)}
-          suffix="%"
-          delta={analyticsSummary.avgWatchRate.delta}
+          icon={MessageCircle}
+          label="Volumen de DMs"
+          value={formatCompactNumber(analyticsSummary.dms.value)}
+          delta={analyticsSummary.dms.delta}
         />
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Rendimiento semanal</CardTitle>
-          <CardDescription>Instagram · últimos 7 días</CardDescription>
+          <CardTitle>Tendencia de rendimiento</CardTitle>
+          <CardDescription>Instagram · elige el rango y la métrica</CardDescription>
         </CardHeader>
         <CardContent>
-          <WeeklyChart data={weeklyPerformance} />
+          <PerformanceChart ranges={performanceRanges} />
         </CardContent>
       </Card>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Top contenido de la semana</CardTitle>
-          <CardDescription>Ordenado por vistas totales</CardDescription>
-        </CardHeader>
-        <CardContent className="p-0 sm:p-5 sm:pt-0">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Contenido</TableHead>
-                <TableHead>Formato</TableHead>
-                <TableHead>Publicado</TableHead>
-                <TableHead className="text-right">Vistas</TableHead>
-                <TableHead className="text-right">Guardados</TableHead>
-                <TableHead className="text-right">Compartidos</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {topContentThisWeek.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="max-w-70 whitespace-normal font-medium text-foreground">
-                    {item.title}
-                  </TableCell>
-                  <TableCell>
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-baseline sm:justify-between">
+          <h2 className="text-sm font-semibold text-foreground">
+            Top 5 reels de los últimos 30 días
+          </h2>
+          <p className="text-xs text-muted-foreground">
+            Promedio: {formatCompactNumber(averageViews30d)} vistas · Destacado a partir
+            de {formatCompactNumber(featuredThreshold)} (x2 el promedio)
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-3">
+          {top5ContentThisWeek.map((item, index) => (
+            <Card key={item.id}>
+              <CardContent className="flex flex-col gap-3 p-5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="flex items-center gap-2">
+                    <span className="flex size-6 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+                      {index + 1}
+                    </span>
+                    <p className="text-sm font-semibold text-foreground">{item.title}</p>
+                  </div>
+                  <div className="flex items-center gap-1.5">
                     <Badge variant="secondary">{item.format}</Badge>
-                  </TableCell>
-                  <TableCell className="text-muted-foreground">
-                    {formatDate(item.publishedAt)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatCompactNumber(item.views)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatCompactNumber(item.saves)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatCompactNumber(item.shares)}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                    {isFeatured(item.views) && (
+                      <Badge variant="success">Contenido destacado</Badge>
+                    )}
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">
+                    <Eye className="size-3.5" />
+                    {formatCompactNumber(item.views)} vistas
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Bookmark className="size-3.5" />
+                    {formatCompactNumber(item.saves)} guardados
+                  </span>
+                  <span>{formatCompactNumber(item.shares)} compartidos</span>
+                  <span>{formatDate(item.publishedAt)}</span>
+                </div>
+
+                <p className="rounded-md bg-muted/60 px-3 py-2 text-xs leading-relaxed text-muted-foreground">
+                  <span className="font-medium text-foreground">Por qué destacó: </span>
+                  {item.reason}
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </div>
     </>
   );
 }

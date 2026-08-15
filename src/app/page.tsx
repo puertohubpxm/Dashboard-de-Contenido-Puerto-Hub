@@ -5,6 +5,7 @@ import {
   Eye,
   Bookmark,
   UserPlus,
+  MessageCircle,
 } from "lucide-react";
 
 import { PageHeader } from "@/components/dashboard/page-header";
@@ -22,7 +23,7 @@ import { analyticsSummary, trends } from "@/data/mock";
 import { formatCompactNumber } from "@/lib/format";
 
 export default function Home() {
-  const topTrend = [...trends].sort((a, b) => b.hookPotential - a.hookPotential)[0];
+  const topTrend = [...trends].sort((a, b) => b.potential - a.potential)[0];
 
   return (
     <>
@@ -52,11 +53,10 @@ export default function Home() {
           delta={analyticsSummary.newFollowers.delta}
         />
         <StatCard
-          icon={BarChart3}
-          label="Retención promedio"
-          value={String(analyticsSummary.avgWatchRate.value)}
-          suffix="%"
-          delta={analyticsSummary.avgWatchRate.delta}
+          icon={MessageCircle}
+          label="Volumen de DMs"
+          value={formatCompactNumber(analyticsSummary.dms.value)}
+          delta={analyticsSummary.dms.delta}
         />
       </div>
 

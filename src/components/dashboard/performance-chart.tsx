@@ -12,16 +12,18 @@ import {
 } from "recharts";
 
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import type { WeeklyPoint } from "@/data/mock";
+import { rangeLabels, type RangeKey, type TrendPoint } from "@/data/mock";
 import { formatCompactNumber } from "@/lib/format";
 
 const metrics = [
   { key: "views", label: "Vistas", color: "var(--color-chart-1)" },
   { key: "saves", label: "Guardados", color: "var(--color-chart-2)" },
   { key: "followers", label: "Nuevos seguidores", color: "var(--color-chart-3)" },
+  { key: "dms", label: "DMs", color: "var(--color-chart-4)" },
 ] as const;
 
 type MetricKey = (typeof metrics)[number]["key"];
+const rangeKeys: RangeKey[] = ["7d", "30d", "90d"];
 
 function ChartTooltip({
   active,
@@ -36,34 +38,45 @@ function ChartTooltip({
   return (
     <div className="rounded-md border border-border bg-popover px-3 py-2 text-xs shadow-md">
       <p className="mb-1 font-medium text-popover-foreground">{label}</p>
-      <p className="text-muted-foreground">
-        {formatCompactNumber(payload[0].value)}
-      </p>
+      <p className="text-muted-foreground">{formatCompactNumber(payload[0].value)}</p>
     </div>
   );
 }
 
-export function WeeklyChart({ data }: { data: WeeklyPoint[] }) {
+export function PerformanceChart({ ranges }: { ranges: Record<RangeKey, TrendPoint[]> }) {
   const [metric, setMetric] = useState<MetricKey>("views");
+  const [range, setRange] = useState<RangeKey>("7d");
   const active = metrics.find((m) => m.key === metric)!;
+  const data = ranges[range];
 
   return (
     <div className="flex flex-col gap-4">
-      <Tabs value={metric} onValueChange={(v) => setMetric(v as MetricKey)}>
-        <TabsList>
-          {metrics.map((m) => (
-            <TabsTrigger key={m.key} value={m.key}>
-              {m.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <Tabs value={metric} onValueChange={(v) => setMetric(v as MetricKey)}>
+          <TabsList>
+            {metrics.map((m) => (
+              <TabsTrigger key={m.key} value={m.key}>
+                {m.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+        <Tabs value={range} onValueChange={(v) => setRange(v as RangeKey)}>
+          <TabsList>
+            {rangeKeys.map((r) => (
+              <TabsTrigger key={r} value={r}>
+                {rangeLabels[r]}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      </div>
 
       <div className="h-64 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ left: -20, right: 10, top: 10 }}>
             <defs>
-              <linearGradient id="weeklyFill" x1="0" y1="0" x2="0" y2="1">
+              <linearGradient id="performanceFill" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor={active.color} stopOpacity={0.35} />
                 <stop offset="100%" stopColor={active.color} stopOpacity={0} />
               </linearGradient>
@@ -74,9 +87,10 @@ export function WeeklyChart({ data }: { data: WeeklyPoint[] }) {
               stroke="var(--color-border)"
             />
             <XAxis
-              dataKey="day"
+              dataKey="label"
               tickLine={false}
               axisLine={false}
+              interval="preserveStartEnd"
               tick={{ fill: "var(--color-muted-foreground)", fontSize: 12 }}
             />
             <YAxis
@@ -92,7 +106,7 @@ export function WeeklyChart({ data }: { data: WeeklyPoint[] }) {
               dataKey={metric}
               stroke={active.color}
               strokeWidth={2}
-              fill="url(#weeklyFill)"
+              fill="url(#performanceFill)"
             />
           </AreaChart>
         </ResponsiveContainer>
